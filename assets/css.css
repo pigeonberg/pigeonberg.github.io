@@ -1,0 +1,21 @@
+body {
+	background-color: black;
+	color: white;
+	font: 20px monospace, monospace;
+}
+
+@media (max-width: 1000px) {
+	body {
+		font-size: 2vw;
+	}
+}
+
+a {
+  color: #776dc6;
+  text-decoration: none;
+}
+
+pre {
+	display: table;
+	margin: auto;
+}

@@ -1,0 +1,62 @@
++-----------------------------------------------c-c----------------------------+
+|                                               |_|                            |
+|                                             c(._.)o                          |
+|     Welcome to <a href="https://flockless.xyz">Flockless</a>                      ( )9                           |
+|     Not much here,                            i i                            |
+|     but thank you for visiting.                                              |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+
+- [001] INTRO
+_______________________________________________________________________________
+
+My name is Joseph, though I go by various aliases online. This site is a place
+for me to collect my thoughts in one spot and stay independent of other
+platforms.
+
+It takes a man with a fair bit of ego to speak online as if anyone genuinely
+cares what he has to say, but that is not the aim here. This website exists
+purely for my own enjoyment, without worrying about SEO or whether anyone else
+appreciates it.
+
+This website and its contents are licensed under the CC BY-SA 4.0, The design
+of this website is inspired by the KISS Linux website. Flockless is also a
+proud member of the 250KB Club.
+
+                                                  +-----------------------+
+                                                  | <a href="https://hotlinewebring.club/pigeon/previous"><-</a> Hotline Webring <a href="https://hotlinewebring.club/pigeon/next">-></a> |
+=> <a href="https://creativecommons.org/licenses/by-sa/4.0/">License Terms</a>               \|/          (__)  +-----------------------+
+=> <a href="https://kisslinux.github.io/">KISS Linux website</a>               `\------(oo) /
+=> <a href="https://250kb.club/pigeon-codeberg-page/">250KB Club membership</a>              ||    (__)
+                                      ||w--||     \|/
+                                  \|/
+- [002] BLOG
+_______________________________________________________________________________
+
+<a href="./blog/20251129a/">Millenium MPS-450 Review</a> ------------------------------------------- 2025-11-29
+
+
+- [003] CONTACT
+_______________________________________________________________________________
+
+1. Email   : pigeon@shitposting.expert
+2. GPG key : @/assets/public.txt
+
+
+- [004] DONATE
+_______________________________________________________________________________
+
+I am from Ireland, I am young, and I earn well for a college student. The
+minimum wage here is already comfortably above the EU average, so I genuinely
+do not need donations.
+
+That said, if you like the technology that is Monero, appreciate Flockless, or
+simply have spare funds with nothing better to do, feel free to send a tip.
+This money will only go towards paying for expenses related to this website.
+
+IF YOU HAVE SPARE CHANGE WITH NOTHING BETTER TO SPEND MONEY ON, I WOULD RATHER
+RECOMMEND THAT YOU GIVE IT TO TRÓCAIRE OR ANOTHER CHARITY OF YOUR CHOICE.
+
+1. https://www.trocaire.org/
+2. @/assets/xmr.txt
