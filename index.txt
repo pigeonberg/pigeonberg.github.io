@@ -1,0 +1,46 @@
++-----------------------------------------------c-c----------------------------+
+|                                               |_|                            |
+|                                             c(._.)o                          |
+|     Welcome to Flockless                      ( )9                           |
+|     Not much here,                            i i                            |
+|     but thank you for visiting.                                              |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+
+- [001] INTRO
+________________________________________________________________________________
+
+My name is Joseph, though I go by various aliases online. This site is a place
+for me to collect my thoughts in one spot and stay independent of other
+platforms.
+
+It takes a man with a fair bit of ego to speak online as if anyone genuinely
+cares what he has to say, but that is not the aim here. This website exists
+purely for my own enjoyment, without worrying about SEO or whether anyone else
+appreciates it.
+
+
+- [002] BLOG
+________________________________________________________________________________
+
+<a href="./blog/20260802a/">Dotfiles Management</a> ------------------------------------------------- 2026-08-02
+<a href="./blog/20251129a/">Millenium MPS-450 Review</a> -------------------------------------------- 2025-11-29
+
+
+- [003] CONTACT
+________________________________________________________________________________
+
+1. Email: @/assets/email.png
+2. GPG key : @/assets/public.txt
+
+
+- [004] DONATE
+________________________________________________________________________________
+
+If you find this website useful, please consider supporting it by donating to
+Trócaire (a charity) or by contributing to my Monero wallet to help with ongoing
+website costs.
+
+1. https://www.trocaire.org/
+2. @/assets/xmr.txt

@@ -1,0 +1,157 @@
+Dotfiles Management                                                   2026-08-02
+________________________________________________________________________________
+
+ This guide describes how I manage my dotfiles. It is heavily inspired by Drew
+ DeVault's approach, but I have adapted it over the years to better suit my
+ own workflow.
+
+ Drew's blog on dotfiles: https://drewdevault.com/2019/12/30/dotfiles.html
+
+--- [001] Setup Options --------------------------------------------------------
+
+ In this setup, the $HOME directory is set up to be a Git repo. When running
+ these commands, the $HOME directory is assumed to be empty. For demonstration
+ purposes this guide assumes you're starting with an empty $HOME. On a real
+ system you would typically clone into an existing home directory or
+ temporarily move files out of the way. For the sake of simplicity, this guide
+ assumes you have basic familiarity with operating a UNIX-like operating
+ system.
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ cd $HOME; git init                                                       |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ Alternatively you can clone an existing repository to your home directory,
+ this is preferable if you already have dotfiles backed up using this or a
+ similar layout and want to deploy them to a new environment.
+
+ In practice, I always clone my existing dotfiles repo onto a new machine, the
+ git init route above is really there to teach the underlying idea since
+ you'll only ever actually run it once, the first time you start tracking your
+ dotfiles in the first place.
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git clone https://your-repo.example/dotfiles $HOME                       |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+
+--- [002] Ignore Everything by Default -----------------------------------------
+
+ By default this setup will track all files in your $HOME directory. To avoid
+ this, rules are set up to ignore all files unless they are explicitly
+ requested to be tracked.
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ echo "*" >> $HOME/.git/info/exclude                                      |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ I find this a better alternative to using a .gitignore file in the base of
+ your repos as it is one extra file polluting /home/$USER/
+
+
+--- [003] Adding Dotfiles ------------------------------------------------------
+
+ I do not limit this to just shell and editor configs, pretty much anything
+ config-related gets tracked this way, River, Kakoune, whatever else I've
+ tweaked. If it's a file I'd be annoyed to lose or retype on a new machine, it
+ goes in.
+
+ Force-add the files you want to track:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git add -f .bashrc                                                       |
+ | $ git commit -m "initial commit"                                           |
+ | $ git push                                                                 |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ Repeat for other files:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git add -f .config/river/config                                          |
+ | $ git add -f .config/kakoune/kakrc                                         |
+ | $ git add -f .profile                                                      |
+ | $ git commit -m "add more files"                                           |
+ | $ git push                                                                 |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ I also use a shell script to track things related to / or the root user. I
+ have a script that automatically backs up a list of my manually installed
+ packages to $HOME/.local/packages and similarly one for my init services and
+ user groups. Handy for backing up system level settings if you're on a single
+ user system.
+
+
+--- [004] Hiding Files ---------------------------------------------------------
+
+ I mainly use this for README and LICENSE, I want them visible when browsing
+ the repo on Codeberg, but they have got no reason to sit in $HOME cluttering
+ things day-to-day.
+
+ For files you want Git to ignore locally:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git update-index --assume-unchanged README LICENSE                       |
+ | $ rm README LICENSE                                                        |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ Check hidden files:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git ls-files -v | grep "^h"                                              |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ Restore them later:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git update-index --no-assume-unchanged README LICENSE                    |
+ | $ git restore README LICENSE                                               |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+
+--- [005] Untracking a File Without Removing It --------------------------------
+
+ Sometimes you want Git to stop tracking a file but keep it sitting in $HOME
+ exactly as it is, no deletion involved. This is different from hiding a file
+ with assume-unchanged, since that keeps the file tracked and just tells Git
+ to stop checking it for changes. Untracking actually removes it from the
+ repo's index while leaving the file on disk untouched.
+
+ Untrack a file, keeping it in the working tree:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git rm --cached .bashrc                                                  |
+ | $ git commit -m "untrack .bashrc"                                          |
+ | $ git push                                                                 |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+
+--- [006] Final Thoughts ------------------------------------------------------
+
+ That's the whole method: a $HOME repo, everything ignored by default, and
+ files force-added one at a time as you decide they're worth tracking. It
+ doesn't require any extra tooling like stow, and scales fine whether you're
+ tracking three files or thirty. I prefer this over the popular bare-repository
+ approach because it behaves like a normal Git repository, requires no shell
+ aliases, and works with standard Git commands.
+
+ If you want to see it in practice rather than just in theory, my own
+ dotfiles are public and follow this exact layout:
+ https://codeberg.org/pigeon/dotfiles

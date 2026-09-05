@@ -1,0 +1,170 @@
+<!doctype html><html lang=en><head><title>Flockless: ./blog/20260802a/index.txt</title><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Pigeon's website"><meta name=theme-color content="#000000"><link rel=stylesheet href=/assets/css.css><link rel=icon href=/assets/ico.ico></head><body><pre>
+
+/<a href=/>HOME</a>/                                           /<a href=https://hotlinewebring.club/pigeon/previous>prev</a>/ /<a href=https://hotlinewebring.club/>Hotline Webring</a>/ /<a href=https://hotlinewebring.club/pigeon/next>next</a>/
+
+
+</pre><style>.img-preview{position:relative;anchor-name:--preview-anchor}.img-preview img{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:10px;max-width:90vw;max-height:80vh;width:auto;height:auto;border:1px solid #fff;background:#000;z-index:1000}@supports(position-anchor:--preview-anchor){.img-preview img{position-anchor:--preview-anchor;position-area:top center;position-try-fallbacks:flip-inline;bottom:unset;left:unset;transform:none}}.img-preview:hover img{display:block}</style><pre>
+Dotfiles Management                                                   2026-08-02
+________________________________________________________________________________
+
+ This guide describes how I manage my dotfiles. It is heavily inspired by Drew
+ DeVault's approach, but I have adapted it over the years to better suit my
+ own workflow.
+
+ Drew's blog on dotfiles: <a href=https://drewdevault.com/2019/12/30/dotfiles.html>https://drewdevault.com/2019/12/30/dotfiles.html</a>
+
+--- <span id=001>[<a class=t href=#001>001</a>]</span> Setup Options --------------------------------------------------------
+
+ In this setup, the $HOME directory is set up to be a Git repo. When running
+ these commands, the $HOME directory is assumed to be empty. For demonstration
+ purposes this guide assumes you're starting with an empty $HOME. On a real
+ system you would typically clone into an existing home directory or
+ temporarily move files out of the way. For the sake of simplicity, this guide
+ assumes you have basic familiarity with operating a UNIX-like operating
+ system.
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ cd $HOME; git init                                                       |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ Alternatively you can clone an existing repository to your home directory,
+ this is preferable if you already have dotfiles backed up using this or a
+ similar layout and want to deploy them to a new environment.
+
+ In practice, I always clone my existing dotfiles repo onto a new machine, the
+ git init route above is really there to teach the underlying idea since
+ you'll only ever actually run it once, the first time you start tracking your
+ dotfiles in the first place.
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git clone <a href=https://your-repo.example/dotfiles>https://your-repo.example/dotfiles</a> $HOME                       |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+
+--- <span id=002>[<a class=t href=#002>002</a>]</span> Ignore Everything by Default -----------------------------------------
+
+ By default this setup will track all files in your $HOME directory. To avoid
+ this, rules are set up to ignore all files unless they are explicitly
+ requested to be tracked.
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ echo "*" >> $HOME/.git/info/exclude                                      |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ I find this a better alternative to using a .gitignore file in the base of
+ your repos as it is one extra file polluting /home/$USER/
+
+
+--- <span id=003>[<a class=t href=#003>003</a>]</span> Adding Dotfiles ------------------------------------------------------
+
+ I do not limit this to just shell and editor configs, pretty much anything
+ config-related gets tracked this way, River, Kakoune, whatever else I've
+ tweaked. If it's a file I'd be annoyed to lose or retype on a new machine, it
+ goes in.
+
+ Force-add the files you want to track:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git add -f .bashrc                                                       |
+ | $ git commit -m "initial commit"                                           |
+ | $ git push                                                                 |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ Repeat for other files:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git add -f .config/river/config                                          |
+ | $ git add -f .config/kakoune/kakrc                                         |
+ | $ git add -f .profile                                                      |
+ | $ git commit -m "add more files"                                           |
+ | $ git push                                                                 |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ I also use a shell script to track things related to / or the root user. I
+ have a script that automatically backs up a list of my manually installed
+ packages to $HOME/.local/packages and similarly one for my init services and
+ user groups. Handy for backing up system level settings if you're on a single
+ user system.
+
+
+--- <span id=004>[<a class=t href=#004>004</a>]</span> Hiding Files ---------------------------------------------------------
+
+ I mainly use this for README and LICENSE, I want them visible when browsing
+ the repo on Codeberg, but they have got no reason to sit in $HOME cluttering
+ things day-to-day.
+
+ For files you want Git to ignore locally:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git update-index --assume-unchanged README LICENSE                       |
+ | $ rm README LICENSE                                                        |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ Check hidden files:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git ls-files -v | grep "^h"                                              |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+ Restore them later:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git update-index --no-assume-unchanged README LICENSE                    |
+ | $ git restore README LICENSE                                               |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+
+--- <span id=005>[<a class=t href=#005>005</a>]</span> Untracking a File Without Removing It --------------------------------
+
+ Sometimes you want Git to stop tracking a file but keep it sitting in $HOME
+ exactly as it is, no deletion involved. This is different from hiding a file
+ with assume-unchanged, since that keeps the file tracked and just tells Git
+ to stop checking it for changes. Untracking actually removes it from the
+ repo's index while leaving the file on disk untouched.
+
+ Untrack a file, keeping it in the working tree:
+
+ +----------------------------------------------------------------------------+
+ |                                                                            |
+ | $ git rm --cached .bashrc                                                  |
+ | $ git commit -m "untrack .bashrc"                                          |
+ | $ git push                                                                 |
+ |                                                                            |
+ +----------------------------------------------------------------------------+
+
+
+--- <span id=006>[<a class=t href=#006>006</a>]</span> Final Thoughts ------------------------------------------------------
+
+ That's the whole method: a $HOME repo, everything ignored by default, and
+ files force-added one at a time as you decide they're worth tracking. It
+ doesn't require any extra tooling like stow, and scales fine whether you're
+ tracking three files or thirty. I prefer this over the popular bare-repository
+ approach because it behaves like a normal Git repository, requires no shell
+ aliases, and works with standard Git commands.
+
+ If you want to see it in practice rather than just in theory, my own
+ dotfiles are public and follow this exact layout:
+ <a href=https://codeberg.org/pigeon/dotfiles>https://codeberg.org/pigeon/dotfiles</a>
+</pre><pre>
+
+________________________________________________________________________________
+
+Flockless (C) 2021-2026 by Joseph is licensed under CC BY-SA 4.0
+
+</pre></body></html>
